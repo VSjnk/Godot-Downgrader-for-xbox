@@ -1,0 +1,75 @@
+[gd_scene load_steps=2 format=3 uid="uid://durdoyvpgjkj0"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_8hfwy"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8hfwy")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_top = 187.0
+offset_right = 102.0
+offset_bottom = 218.0
+text = "Downgrade!"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 576.0
+grow_vertical = 2
+text = "Welcome to the Godot 4 Downgrader!
+The main purpose of this is for converting godot projects to the appropiate versions for exporting to console: an example of this is the UWP export that is used for exporting your game to Xbox, but I'm sure with some modification someone can get it working for other consoles like the old 3DS or PSP!
+**YOU STILL NEED TO FIX SOME SCRIPTS, THIS IS NOT MAGIC**"
+autowrap_mode = 3
+
+[node name="CheckButton" type="CheckButton" parent="Label"]
+layout_mode = 0
+offset_top = 263.0
+offset_right = 181.0
+offset_bottom = 294.0
+text = " transfer all files?"
+
+[node name="text log" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+grow_horizontal = 0
+grow_vertical = 2
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+scroll_smooth = true
+scroll_past_end_of_file = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 346.0
+offset_right = 341.0
+offset_bottom = 373.0
+
+[node name="Label" type="Label" parent="ProgressBar"]
+layout_mode = 0
+offset_left = -80.0
+offset_right = -8.0
+offset_bottom = 23.0
+text = "Progress:"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="toggled" from="Label/CheckButton" to="." method="_on_check_button_toggled"]
