@@ -5,7 +5,7 @@ extends Control
 @onready var check_button = $Label/CheckButton
 
 const conversion_data = {
-	"format=3" : "format-2",
+	"format=3" : "format=2",
 	"format-2 " : "format=2",
 	"CharacterBody2D" : "KinematicBody2D",
 	"VisibleOnScreenNotifier2D" : "VisibilityNotifier2D",

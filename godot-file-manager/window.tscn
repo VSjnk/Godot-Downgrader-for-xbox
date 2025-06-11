@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6i0lnsygs8vb"]
+
+[ext_resource type="Script" uid="uid://dxujetx5ffu0n" path="res://Scripts/window.gd" id="1_hjewq"]
+[ext_resource type="PackedScene" uid="uid://ct8vvyumfdwrf" path="res://file_explorer.tscn" id="1_mvsta"]
+
+[node name="FileManager" type="Window"]
+title = "File Manager"
+initial_position = 2
+size = Vector2i(1280, 720)
+content_scale_size = Vector2i(1280, 720)
+content_scale_mode = 1
+content_scale_aspect = 1
+script = ExtResource("1_hjewq")
+
+[node name="FileExplorer" parent="." instance=ExtResource("1_mvsta")]
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="done" from="." to="." method="_on_done"]
