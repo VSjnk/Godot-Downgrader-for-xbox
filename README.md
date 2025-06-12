@@ -1,5 +1,5 @@
 <h1 style="color:red;"> TODO </h1>
-<p> Create a PackedStringArray to PoolIntArray Converter.</p>
+<p> Create away to automatacly convert tilemaps.</p>
 <p> Add more node conversion names</p>
 
 <h1>About this project</h1>

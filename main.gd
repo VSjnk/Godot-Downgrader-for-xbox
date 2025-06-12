@@ -29,8 +29,8 @@ const conversion_data = {
 	"TileMapLayer" : "TileMap"
 }
 
-var import_path = "C:/Users/deck/Desktop/DowngradedFiles/import"
-var export_path = "C:/Users/deck/Desktop/DowngradedFiles/export"
+@onready var import_path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "/import"
+var export_path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "/export"
 
 var check_dirs = []
 
