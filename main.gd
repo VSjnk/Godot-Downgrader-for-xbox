@@ -30,7 +30,8 @@ const conversion_data = {
 }
 
 @onready var import_path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "/import"
-var export_path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "/export"
+
+@onready var export_path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "/export"
 
 var check_dirs = []
 
@@ -40,7 +41,7 @@ var transfer_other_files = false
 
 func _ready():
 	check_button.button_pressed = transfer_other_files
-	log_text(scan_tscn_files(import_path))
+	#log_text(scan_tscn_files(import_path))
 	if transfer_other_files:
 		log_text("Transfering other files enabled!")
 	else:
