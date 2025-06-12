@@ -25,7 +25,8 @@ const conversion_data = {
 	"TileSetAtlasSource" : "TileSet",
 	"instantiate" : "instance",
 	"PackedInt32Array" : "PoolIntArray",
-	"tile_map_data" : "tile_data"
+	"tile_map_data" : "tile_data",
+	"TileMapLayer" : "TileMap"
 }
 
 var import_path = "C:/Users/deck/Desktop/DowngradedFiles/import"
@@ -93,7 +94,7 @@ func _on_button_pressed():
 			converted_file = file_text
 			if converted_file.contains("type="):
 				var lines = converted_file.split("\n")  # Split text into lines
-				lines = convert_tilemap_data(lines)
+				#lines = convert_tilemap_data(lines)
 
 				var frames = []
 				for line in lines:
@@ -106,6 +107,8 @@ func _on_button_pressed():
 					if "id=" in id_line:
 						id_placements.append(get_id_from_line(id_line))
 						converted_file = converted_file.replace(str(id_placements[id_placements.size() - 1]), str(id_placements.size()))
+					#if "tile_map_data = PackedByteArray(" in id_line:
+						#converted_file = converted_file.replace(str(id_line), str(convert_tilemap_data(id_line)))
 					if fuck.ends_with(".tres"):
 						
 						if 'ExtResource' in lines: 
@@ -198,8 +201,6 @@ func copy_file(src: String, dest: String) -> bool:
 
 	return false
 
-
-
 func _on_check_button_toggled(toggled_on):
 	transfer_other_files = toggled_on
 	_ready()
@@ -214,8 +215,7 @@ var tile_map : TileMap
 #x = 1
 
 func _on_input_file_pressed() -> void:
-	file_manager.show()
-
+	file_manager.show() 
 
 func _on_file_manager_done(path: String) -> void:
 	import_path = path + "/import"
@@ -232,74 +232,74 @@ func _on_file_manager_done(path: String) -> void:
 	log_text(export_path)
 	_ready()
 
-func convert_tilemap_data(lines: PackedStringArray) -> PackedStringArray:
+func convert_tilemap_data(lines):
 	var result: PackedStringArray = []
 	var inside_tile_data := false
 	var new_tile_data := PackedInt32Array()
 
-	for i in range(lines.size()):
-		var raw_line: String = lines[i]
-		var line: String = raw_line.strip_edges()
+	var raw_line: String = str(lines)
+	var line: String = raw_line.strip_edges()
 
-		if line.begins_with("tile_data = {"):
-			inside_tile_data = true
-			continue
+	if line.begins_with("tile_data = PackedByteArray("):
+		inside_tile_data = true
+		
 
-		if inside_tile_data:
-			if line == "}":
-				inside_tile_data = false
-				result.append("tile_data = PoolIntArray(" + _array_to_string(new_tile_data) + ")")
-				continue
+	if inside_tile_data:
+		if line == ")":
+			inside_tile_data = false
+			result.append("tile_data = PoolIntArray(" + _array_to_string(new_tile_data) + ")")
+			log_text(result)
+			
 
-			var parts: PackedStringArray = line.rstrip(",").split(":")
-			if parts.size() != 2:
-				continue
+		var parts: PackedStringArray = line.rstrip(",").split(":")
+		#if parts.size() != 2:
+			#continue
 
-			var key: String = parts[0].strip_edges().strip_edges()
-			var val: String = parts[1].strip_edges()
+		var key: String = parts[0].strip_edges().strip_edges()
+		var val: String = parts[1].strip_edges()
 
-			var coords: PackedStringArray = key.split("/")
-			if coords.size() != 2:
-				continue
+		var coords: PackedStringArray = key.split("/")
+		#if coords.size() != 2:
+			#continue
 
-			var x := int(coords[0])
-			var y := int(coords[1])
+		var x := int(coords[0])
+		var y := int(coords[1])
 
-			var source_id := 0
-			var atlas_x := 0
-			var atlas_y := 0
+		var source_id := 0
+		var atlas_x := 0
+		var atlas_y := 0
 
-			# Parse source_id manually
-			var source_idx := val.find("source_id:")
-			if source_idx != -1:
-				var substr := val.substr(source_idx, val.length() - source_idx)
-				var number_match := RegEx.new()
-				number_match.compile("\\d+")
-				var result_match := number_match.search(substr)
-				if result_match:
-					source_id = int(result_match.get_string())
+		# Parse source_id manually
+		var source_idx := val.find("source_id:")
+		if source_idx != -1:
+			var substr := val.substr(source_idx, val.length() - source_idx)
+			var number_match := RegEx.new()
+			number_match.compile("\\d+")
+			var result_match := number_match.search(substr)
+			if result_match:
+				source_id = int(result_match.get_string())
 
-			# Parse atlas_coords
-			var atlas_idx := val.find("atlas_coords")
-			if atlas_idx != -1:
-				var substr := val.substr(atlas_idx, val.length() - atlas_idx)
-				var atlas_match := RegEx.new()
-				atlas_match.compile("Vector2i\\((\\d+),\\s*(\\d+)\\)")
-				var result_match := atlas_match.search(substr)
-				if result_match:
-					atlas_x = int(result_match.get_string(1))
-					atlas_y = int(result_match.get_string(2))
+		# Parse atlas_coords
+		var atlas_idx := val.find("atlas_coords")
+		if atlas_idx != -1:
+			var substr := val.substr(atlas_idx, val.length() - atlas_idx)
+			var atlas_match := RegEx.new()
+			atlas_match.compile("Vector2i\\((\\d+),\\s*(\\d+)\\)")
+			var result_match := atlas_match.search(substr)
+			if result_match:
+				atlas_x = int(result_match.get_string(1))
+				atlas_y = int(result_match.get_string(2))
 
-			var tile_id := atlas_y * 256 + atlas_x
-			var final_id := tile_id  # Add flip flags if needed
+		var tile_id := atlas_y * 256 + atlas_x
+		var final_id := tile_id  # Add flip flags if needed
 
-			new_tile_data.append(x)
-			new_tile_data.append(y)
-			new_tile_data.append(final_id)
-		else:
-			result.append(raw_line)
-
-	return result
+		new_tile_data.append(x)
+		new_tile_data.append(y)
+		new_tile_data.append(final_id)
+	else:
+		result.append(raw_line)
+	print(result[0])
+	return result[0]
 
 
 func _array_to_string(array: PackedInt32Array) -> String:
