@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6i0lnsygs8vb"]
 
-[ext_resource type="Script" uid="uid://dxujetx5ffu0n" path="res://Scripts/window.gd" id="1_hjewq"]
-[ext_resource type="PackedScene" uid="uid://ct8vvyumfdwrf" path="res://file_explorer.tscn" id="1_mvsta"]
+[ext_resource type="Script" uid="uid://dxujetx5ffu0n" path="res://godot-file-manager/Scripts/window.gd" id="1_hjewq"]
+[ext_resource type="PackedScene" uid="uid://ct8vvyumfdwrf" path="res://godot-file-manager/file_explorer.tscn" id="1_mvsta"]
 
 [node name="FileManager" type="Window"]
 title = "File Manager"

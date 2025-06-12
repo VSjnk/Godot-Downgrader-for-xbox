@@ -3,10 +3,11 @@ extends Control
 @onready var text_log = $"text log"
 @onready var progress_bar = $ProgressBar
 @onready var check_button = $Label/CheckButton
+@onready var file_manager: Window = $FileManager
 
 const conversion_data = {
 	"format=3" : "format=2",
-	"format-2 " : "format=2",
+	"format=4" : "format=2",
 	"CharacterBody2D" : "KinematicBody2D",
 	"VisibleOnScreenNotifier2D" : "VisibilityNotifier2D",
 	"PointLight2D" : "Light2D",
@@ -23,11 +24,12 @@ const conversion_data = {
 	"NoiseTexture" : "OpenSimplexNoise",
 	"TileSetAtlasSource" : "TileSet",
 	"instantiate" : "instance",
-	"PackedInt32Array" : "PoolIntArray"
+	"PackedInt32Array" : "PoolIntArray",
+	"tile_map_data" : "tile_data"
 }
 
 var import_path = "C:/Users/deck/Desktop/DowngradedFiles/import"
-const export_path = "C:/Users/deck/Desktop/DowngradedFiles/export"
+var export_path = "C:/Users/deck/Desktop/DowngradedFiles/export"
 
 var check_dirs = []
 
@@ -52,6 +54,11 @@ var files := []
 
 func scan_tscn_files(directory_path: String) -> Array:
 	var dir := DirAccess.open(directory_path)
+	
+	if dir.dir_exists_absolute(directory_path):
+		dir.make_dir_absolute(directory_path)
+	if dir.dir_exists_absolute(export_path):
+		dir.make_dir_absolute(export_path)
 
 	if dir:
 		dir.list_dir_begin()
@@ -86,6 +93,8 @@ func _on_button_pressed():
 			converted_file = file_text
 			if converted_file.contains("type="):
 				var lines = converted_file.split("\n")  # Split text into lines
+				lines = convert_tilemap_data(lines)
+
 				var frames = []
 				for line in lines:
 					#if "ext_resource" in line:  # Check if the line contains "type="
@@ -203,3 +212,100 @@ var tile_map : TileMap
 #65537, 0, 0 
 #y = 1
 #x = 1
+
+func _on_input_file_pressed() -> void:
+	file_manager.show()
+
+
+func _on_file_manager_done(path: String) -> void:
+	import_path = path + "/import"
+	export_path = path + "/export"
+	
+	var dir := DirAccess.open(path)
+	
+	if !dir.dir_exists_absolute(import_path):
+		dir.make_dir_absolute(import_path)
+	if !dir.dir_exists_absolute(export_path):
+		!dir.make_dir_absolute(export_path)
+	log_text("""Now that you have your destination, please place the godot game you want to convert into the "import" folder""")
+	log_text(import_path)
+	log_text(export_path)
+	_ready()
+
+func convert_tilemap_data(lines: PackedStringArray) -> PackedStringArray:
+	var result: PackedStringArray = []
+	var inside_tile_data := false
+	var new_tile_data := PackedInt32Array()
+
+	for i in range(lines.size()):
+		var raw_line: String = lines[i]
+		var line: String = raw_line.strip_edges()
+
+		if line.begins_with("tile_data = {"):
+			inside_tile_data = true
+			continue
+
+		if inside_tile_data:
+			if line == "}":
+				inside_tile_data = false
+				result.append("tile_data = PoolIntArray(" + _array_to_string(new_tile_data) + ")")
+				continue
+
+			var parts: PackedStringArray = line.rstrip(",").split(":")
+			if parts.size() != 2:
+				continue
+
+			var key: String = parts[0].strip_edges().strip_edges()
+			var val: String = parts[1].strip_edges()
+
+			var coords: PackedStringArray = key.split("/")
+			if coords.size() != 2:
+				continue
+
+			var x := int(coords[0])
+			var y := int(coords[1])
+
+			var source_id := 0
+			var atlas_x := 0
+			var atlas_y := 0
+
+			# Parse source_id manually
+			var source_idx := val.find("source_id:")
+			if source_idx != -1:
+				var substr := val.substr(source_idx, val.length() - source_idx)
+				var number_match := RegEx.new()
+				number_match.compile("\\d+")
+				var result_match := number_match.search(substr)
+				if result_match:
+					source_id = int(result_match.get_string())
+
+			# Parse atlas_coords
+			var atlas_idx := val.find("atlas_coords")
+			if atlas_idx != -1:
+				var substr := val.substr(atlas_idx, val.length() - atlas_idx)
+				var atlas_match := RegEx.new()
+				atlas_match.compile("Vector2i\\((\\d+),\\s*(\\d+)\\)")
+				var result_match := atlas_match.search(substr)
+				if result_match:
+					atlas_x = int(result_match.get_string(1))
+					atlas_y = int(result_match.get_string(2))
+
+			var tile_id := atlas_y * 256 + atlas_x
+			var final_id := tile_id  # Add flip flags if needed
+
+			new_tile_data.append(x)
+			new_tile_data.append(y)
+			new_tile_data.append(final_id)
+		else:
+			result.append(raw_line)
+
+	return result
+
+
+func _array_to_string(array: PackedInt32Array) -> String:
+	var out := ""
+	for i in array.size():
+		out += str(array[i])
+		if i < array.size() - 1:
+			out += ", "
+	return out

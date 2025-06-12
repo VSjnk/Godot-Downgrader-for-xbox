@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://durdoyvpgjkj0"]
+[gd_scene load_steps=3 format=3 uid="uid://durdoyvpgjkj0"]
 
 [ext_resource type="Script" uid="uid://bhghhj6g78ois" path="res://main.gd" id="1_8hfwy"]
+[ext_resource type="PackedScene" uid="uid://c6i0lnsygs8vb" path="res://godot-file-manager/window.tscn" id="2_0xm2m"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -11,11 +12,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8hfwy")
 
+[node name="FileManager" parent="." instance=ExtResource("2_0xm2m")]
+visible = false
+
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_top = 187.0
+offset_top = 394.0
 offset_right = 102.0
-offset_bottom = 218.0
+offset_bottom = 425.0
 text = "Downgrade!"
 
 [node name="Label" type="Label" parent="."]
@@ -71,5 +75,14 @@ offset_right = -8.0
 offset_bottom = 23.0
 text = "Progress:"
 
+[node name="InputFile" type="Button" parent="."]
+layout_mode = 0
+offset_top = 187.0
+offset_right = 247.0
+offset_bottom = 218.0
+text = "Set file expot/import locations."
+
+[connection signal="done" from="FileManager" to="." method="_on_file_manager_done"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="toggled" from="Label/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="InputFile" to="." method="_on_input_file_pressed"]
