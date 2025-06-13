@@ -29,9 +29,8 @@ const conversion_data = {
 	"TileMapLayer" : "TileMap"
 }
 
-@onready var import_path = OS.get_system_dir(OS.SYSTEM_DIR_DESKTOP) + "/Godot/Zimdolf/import"
-
-@onready var export_path = OS.get_system_dir(OS.SYSTEM_DIR_DESKTOP) + "/Godot/Zimdolf/export"
+var import_path = "res://example/import/"
+var export_path = "res://example/export/"
 
 var check_dirs = []
 
