@@ -26,7 +26,13 @@ const conversion_data = {
 	"instantiate" : "instance",
 	"PackedInt32Array" : "PoolIntArray",
 	"tile_map_data" : "tile_data",
-	"TileMapLayer" : "TileMap"
+	"TileMapLayer" : "TileMap",
+	"polygon" : "points",
+	"PackedVector2Array" : "PoolVector2Array",
+	":0/0" : "",
+	":1/0" : "",
+	":2/0" : "",
+	":3/0" : ""
 }
 
 var import_path = "res://example/import/"

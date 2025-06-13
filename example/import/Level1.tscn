@@ -15,92 +15,92 @@
 [ext_resource type="Shader" path="res://Assets/Dungeon/SkyNoise.gdshader" id=13]
 
 [sub_resource type="OccluderPolygon2D" id=14]
-polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id=15]
-polygon = PackedVector2Array(8, -8, 8, 8, -8, 8)
+points = PoolVector2Array(8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id=16]
-polygon = PackedVector2Array(8, 0, 3, 0, 3, 3, -1, 3, -1, 0, -4, 0, -4, -1, -5, -1, -5, -4, -4, -4, -4, -5, 8, -5)
+points = PoolVector2Array(8, 0, 3, 0, 3, 3, -1, 3, -1, 0, -4, 0, -4, -1, -5, -1, -5, -4, -4, -4, -4, -5, 8, -5)
 
 [sub_resource type="OccluderPolygon2D" id=17]
-polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id=18]
-polygon = PackedVector2Array(-8, -5, 4, -5, 5, -4, 5, -1, 4, 0, -8, 0)
+points = PoolVector2Array(-8, -5, 4, -5, 5, -4, 5, -1, 4, 0, -8, 0)
 
 [sub_resource type="OccluderPolygon2D" id=19]
-polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id=20]
-polygon = PackedVector2Array(-8, -8, 8, 8, -8, 8)
+points = PoolVector2Array(-8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id=21]
-polygon = PackedVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
+points = PoolVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
 
 [sub_resource type="TileSet" id=22]
 texture = ExtResource(3)
-0:0/0 = 0
-0:0/0/occlusion_layer_0/polygon = SubResource(14)
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-1:0/0 = 0
-1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:0/0/physics_layer_0/angular_velocity = 0.0
-2:0/0 = 0
-2:0/0/occlusion_layer_0/polygon = SubResource(17)
-2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-2:0/0/physics_layer_0/angular_velocity = 0.0
-2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-0:1/0 = 0
-0:1/0/occlusion_layer_0/polygon = SubResource(15)
-0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:1/0/physics_layer_0/angular_velocity = 0.0
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8)
-1:1/0 = 0
-1:1/0/occlusion_layer_0/polygon = SubResource(16)
-1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:1/0/physics_layer_0/angular_velocity = 0.0
-1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -5, -4, -5, -5, -4, -5, -1, -4, 0, 8, 0)
-1:1/0/physics_layer_0/polygon_0/one_way = true
-2:1/0 = 0
-2:1/0/occlusion_layer_0/polygon = SubResource(18)
-2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-2:1/0/physics_layer_0/angular_velocity = 0.0
-2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, 4, -5, 5, -4, 5, -1, 4, 0, -8, 0)
+0 = 0
+0/occlusion_layer_0/points = SubResource(14)
+0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0/physics_layer_0/angular_velocity = 0.0
+0/physics_layer_0/points_0/points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1 = 0
+1/physics_layer_0/linear_velocity = Vector2(0, 0)
+1/physics_layer_0/angular_velocity = 0.0
+2 = 0
+2/occlusion_layer_0/points = SubResource(17)
+2/physics_layer_0/linear_velocity = Vector2(0, 0)
+2/physics_layer_0/angular_velocity = 0.0
+2/physics_layer_0/points_0/points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0 = 0
+0/occlusion_layer_0/points = SubResource(15)
+0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0/physics_layer_0/angular_velocity = 0.0
+0/physics_layer_0/points_0/points = PoolVector2Array(8, -8, 8, 8, -8, 8)
+1 = 0
+1/occlusion_layer_0/points = SubResource(16)
+1/physics_layer_0/linear_velocity = Vector2(0, 0)
+1/physics_layer_0/angular_velocity = 0.0
+1/physics_layer_0/points_0/points = PoolVector2Array(8, -5, -4, -5, -5, -4, -5, -1, -4, 0, 8, 0)
+1/physics_layer_0/points_0/one_way = true
+2 = 0
+2/occlusion_layer_0/points = SubResource(18)
+2/physics_layer_0/linear_velocity = Vector2(0, 0)
+2/physics_layer_0/angular_velocity = 0.0
+2/physics_layer_0/points_0/points = PoolVector2Array(-8, -5, 4, -5, 5, -4, 5, -1, 4, 0, -8, 0)
 0:2/next_alternative_id = 2
-0:2/0 = 0
-0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:2/0/physics_layer_0/angular_velocity = 0.0
-3:0/0 = 0
-3:0/0/occlusion_layer_0/polygon = SubResource(20)
-3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-3:0/0/physics_layer_0/angular_velocity = 0.0
-3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, 8, -8, 8)
-3:1/0 = 0
-3:1/0/occlusion_layer_0/polygon = SubResource(21)
-3:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-3:1/0/physics_layer_0/angular_velocity = 0.0
-3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
-2:2/0 = 0
-2:2/0/occlusion_layer_0/polygon = SubResource(19)
-2:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-2:2/0/physics_layer_0/angular_velocity = 0.0
-2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-1:2/0 = 0
-1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:2/0/physics_layer_0/angular_velocity = 0.0
-1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-3:2/0 = 0
-3:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-3:2/0/physics_layer_0/angular_velocity = 0.0
-1:3/0 = 0
-1:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:3/0/physics_layer_0/angular_velocity = 0.0
-0:3/0 = 0
-0:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:3/0/physics_layer_0/angular_velocity = 0.0
+0 = 0
+0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0/physics_layer_0/angular_velocity = 0.0
+3 = 0
+3/occlusion_layer_0/points = SubResource(20)
+3/physics_layer_0/linear_velocity = Vector2(0, 0)
+3/physics_layer_0/angular_velocity = 0.0
+3/physics_layer_0/points_0/points = PoolVector2Array(-8, -8, 8, 8, -8, 8)
+3 = 0
+3/occlusion_layer_0/points = SubResource(21)
+3/physics_layer_0/linear_velocity = Vector2(0, 0)
+3/physics_layer_0/angular_velocity = 0.0
+3/physics_layer_0/points_0/points = PoolVector2Array(-8, -5, 8, -5, 8, 0, -8, 0)
+2 = 0
+2/occlusion_layer_0/points = SubResource(19)
+2/physics_layer_0/linear_velocity = Vector2(0, 0)
+2/physics_layer_0/angular_velocity = 0.0
+2/physics_layer_0/points_0/points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1 = 0
+1/physics_layer_0/linear_velocity = Vector2(0, 0)
+1/physics_layer_0/angular_velocity = 0.0
+1/physics_layer_0/points_0/points = PoolVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3 = 0
+3/physics_layer_0/linear_velocity = Vector2(0, 0)
+3/physics_layer_0/angular_velocity = 0.0
+1 = 0
+1/physics_layer_0/linear_velocity = Vector2(0, 0)
+1/physics_layer_0/angular_velocity = 0.0
+0 = 0
+0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id=23]
 occlusion_layer_0/light_mask = 1
