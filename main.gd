@@ -99,7 +99,14 @@ func _on_button_pressed():
 					#if "ext_resource" in line:  # Check if the line contains "type="
 					var regex_result : String = remove_type_with_regex(line)
 					converted_file = converted_file.replace(line,regex_result)
-					
+					#For converting tile maps
+					if "layer_" in line:
+						for i in range(3):
+							if convert_old_4_tilemap(line ,i) != "":
+								print(convert_old_4_tilemap(line ,i))
+								converted_file = converted_file.replace(line, '''[node name=''' + convert_old_4_tilemap(line ,i) + ''' type="TileMap" parent="."]''' + "\nformat = 1")
+								converted_file = converted_file.replace("layer_" + str(i) + "/tile_data = ", "tile_data = ")
+								
 				lines = converted_file.split("\n")
 				for id_line in lines:
 					if "id=" in id_line:
@@ -230,75 +237,80 @@ func _on_file_manager_done(path: String) -> void:
 	log_text(export_path)
 	_ready()
 
-func convert_tilemap_data(lines):
-	var result: PackedStringArray = []
-	var inside_tile_data := false
-	var new_tile_data := PackedInt32Array()
+#func convert_tilemap_data(lines):
+	#var result: PackedStringArray = []
+	#var inside_tile_data := false
+	#var new_tile_data := PackedInt32Array()
+#
+	#var raw_line: String = str(lines)
+	#var line: String = raw_line.strip_edges()
+#
+	#if line.begins_with("tile_data = PackedByteArray("):
+		#inside_tile_data = true
+		#
+#
+	#if inside_tile_data:
+		#if line == ")":
+			#inside_tile_data = false
+			#result.append("tile_data = PoolIntArray(" + _array_to_string(new_tile_data) + ")")
+			#log_text(result)
+			#
+#
+		#var parts: PackedStringArray = line.rstrip(",").split(":")
+		##if parts.size() != 2:
+			##continue
+#
+		#var key: String = parts[0].strip_edges().strip_edges()
+		#var val: String = parts[1].strip_edges()
+#
+		#var coords: PackedStringArray = key.split("/")
+		##if coords.size() != 2:
+			##continue
+#
+		#var x := int(coords[0])
+		#var y := int(coords[1])
+#
+		#var source_id := 0
+		#var atlas_x := 0
+		#var atlas_y := 0
+#
+		## Parse source_id manually
+		#var source_idx := val.find("source_id:")
+		#if source_idx != -1:
+			#var substr := val.substr(source_idx, val.length() - source_idx)
+			#var number_match := RegEx.new()
+			#number_match.compile("\\d+")
+			#var result_match := number_match.search(substr)
+			#if result_match:
+				#source_id = int(result_match.get_string())
+#
+		## Parse atlas_coords
+		#var atlas_idx := val.find("atlas_coords")
+		#if atlas_idx != -1:
+			#var substr := val.substr(atlas_idx, val.length() - atlas_idx)
+			#var atlas_match := RegEx.new()
+			#atlas_match.compile("Vector2i\\((\\d+),\\s*(\\d+)\\)")
+			#var result_match := atlas_match.search(substr)
+			#if result_match:
+				#atlas_x = int(result_match.get_string(1))
+				#atlas_y = int(result_match.get_string(2))
+#
+		#var tile_id := atlas_y * 256 + atlas_x
+		#var final_id := tile_id  # Add flip flags if needed
+#
+		#new_tile_data.append(x)
+		#new_tile_data.append(y)
+		#new_tile_data.append(final_id)
+	#else:
+		#result.append(raw_line)
+	#print(result[0])
+	#return result[0]
 
-	var raw_line: String = str(lines)
-	var line: String = raw_line.strip_edges()
-
-	if line.begins_with("tile_data = PackedByteArray("):
-		inside_tile_data = true
-		
-
-	if inside_tile_data:
-		if line == ")":
-			inside_tile_data = false
-			result.append("tile_data = PoolIntArray(" + _array_to_string(new_tile_data) + ")")
-			log_text(result)
-			
-
-		var parts: PackedStringArray = line.rstrip(",").split(":")
-		#if parts.size() != 2:
-			#continue
-
-		var key: String = parts[0].strip_edges().strip_edges()
-		var val: String = parts[1].strip_edges()
-
-		var coords: PackedStringArray = key.split("/")
-		#if coords.size() != 2:
-			#continue
-
-		var x := int(coords[0])
-		var y := int(coords[1])
-
-		var source_id := 0
-		var atlas_x := 0
-		var atlas_y := 0
-
-		# Parse source_id manually
-		var source_idx := val.find("source_id:")
-		if source_idx != -1:
-			var substr := val.substr(source_idx, val.length() - source_idx)
-			var number_match := RegEx.new()
-			number_match.compile("\\d+")
-			var result_match := number_match.search(substr)
-			if result_match:
-				source_id = int(result_match.get_string())
-
-		# Parse atlas_coords
-		var atlas_idx := val.find("atlas_coords")
-		if atlas_idx != -1:
-			var substr := val.substr(atlas_idx, val.length() - atlas_idx)
-			var atlas_match := RegEx.new()
-			atlas_match.compile("Vector2i\\((\\d+),\\s*(\\d+)\\)")
-			var result_match := atlas_match.search(substr)
-			if result_match:
-				atlas_x = int(result_match.get_string(1))
-				atlas_y = int(result_match.get_string(2))
-
-		var tile_id := atlas_y * 256 + atlas_x
-		var final_id := tile_id  # Add flip flags if needed
-
-		new_tile_data.append(x)
-		new_tile_data.append(y)
-		new_tile_data.append(final_id)
-	else:
-		result.append(raw_line)
-	print(result[0])
-	return result[0]
-
+func convert_old_4_tilemap(line, layer):
+	var parts = line.split("layer_" + str(layer) + "/name = ")  # Split at "id="
+	if parts.size() > 1:
+		return parts[1].strip_edges().replace("]", "")  # Remove extra spaces/brackets
+	return ""  # Return empty if no ID found
 
 func _array_to_string(array: PackedInt32Array) -> String:
 	var out := ""
