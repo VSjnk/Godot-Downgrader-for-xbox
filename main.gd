@@ -102,6 +102,7 @@ func _on_button_pressed():
 
 				var frames = []
 				for line in lines:
+					print(convert_position_data(line))
 					#if "ext_resource" in line:  # Check if the line contains "type="
 					var regex_result : String = remove_type_with_regex(line)
 					converted_file = converted_file.replace(line,regex_result)
@@ -109,8 +110,8 @@ func _on_button_pressed():
 					if "layer_" in line:
 						for i in range(3):
 							if convert_old_4_tilemap(line ,i) != "":
-								print(convert_old_4_tilemap(line ,i))
-								converted_file = converted_file.replace(line, '''[node name=''' + convert_old_4_tilemap(line ,i) + ''' type="TileMap" parent="."]''' + "\nformat = 1")
+								print(convert_position_data(lines))
+								converted_file = converted_file.replace(line, '''[node name=''' + convert_old_4_tilemap(line ,i) + ''' type="TileMap" parent="."]''' + "\nformat = 1" + convert_position_data(line))
 								converted_file = converted_file.replace("layer_" + str(i) + "/tile_data = ", "tile_data = ")
 								
 				lines = converted_file.split("\n")
@@ -325,3 +326,15 @@ func _array_to_string(array: PackedInt32Array) -> String:
 		if i < array.size() - 1:
 			out += ", "
 	return out
+
+const data_scan = ["z_index = ", "texture_filter = ", "rotation = ", "scale = ", "position = ", "tile_set = ", "rendering_quadrant_size = "]
+
+
+
+func convert_position_data(data):
+	var data_list : String
+	for i in data_scan.size():
+		if data_scan[i] in data:
+			data_list += str(data) + "\n"
+	print(data_list)
+	return data_list
